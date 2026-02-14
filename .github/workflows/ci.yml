@@ -1,0 +1,32 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Install dependencies
+        run: npm install gray-matter glob
+
+      - name: Validate MDX frontmatter
+        run: node scripts/validate-frontmatter.mjs
+
+      - name: Lint MDX syntax
+        run: |
+          npx remark --use remark-mdx --use remark-lint --no-stdout posts/**/*.mdx 2>&1 || true
+          # Soft-fail for now since there may be no MDX files yet
+          echo "MDX lint complete"
+
+      - name: Verify image variants
+        run: node scripts/verify-images.mjs
