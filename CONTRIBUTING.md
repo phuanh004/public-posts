@@ -70,11 +70,7 @@ Every English post starts with a YAML frontmatter block between `---` fences:
 ---
 title: "5 Negotiation Scripts That Win Multiple Offer Situations"
 slug: "5-negotiation-scripts"
-author: "Vicky Nga"
-authorTitle: "Founder & Team Leader"
-authorAvatar: "/images/vicky-chen.jpg"
-authorBio: "Vicky helps ambitious real estate agents build thriving businesses."
-authorLink: "/team/vicky-nga"
+author: vicky-nga
 date: "2026-01-21"
 category: "Agent Success Strategies"
 description: "Learn proven negotiation scripts for winning in competitive multiple-offer scenarios without alienating sellers."
@@ -92,6 +88,8 @@ relatedArticles:
     image: "/images/how-to-get-first-10-listings.jpg"
 ---
 ```
+
+> **Note:** The `author` field should be a member slug (e.g., `vicky-nga`) matching a file in `members/`. The sync endpoint resolves the author's name, avatar, bio, and profile link from the member data automatically. Legacy posts with full author fields (`authorTitle`, `authorAvatar`, `authorBio`, `authorLink`) are still supported for backwards compatibility.
 
 ### 2b. Add frontmatter (translations)
 
@@ -114,7 +112,7 @@ category: "Chiến Lược Thành Công Cho Đại Lý"
 |---|---|---|---|
 | `title` | string | Non-empty, descriptive headline | `"5 Negotiation Scripts That Win"` |
 | `slug` | string | Lowercase alphanumeric + hyphens only | `"5-negotiation-scripts"` |
-| `author` | string | Non-empty author name | `"Vicky Nga"` |
+| `author` | string | Member slug or author name | `vicky-nga` |
 | `date` | string | ISO 8601 format (YYYY-MM-DD) | `"2026-01-21"` |
 
 #### Required fields — Translation posts (CI enforced)
@@ -128,10 +126,6 @@ category: "Chiến Lược Thành Công Cho Đại Lý"
 
 | Field | Type | Purpose | Example |
 |---|---|---|---|
-| `authorTitle` | string | Author's role/position | `"Founder & Team Leader"` |
-| `authorAvatar` | string | Path to author photo | `"/images/vicky-chen.jpg"` |
-| `authorBio` | string | Short author bio (1-2 sentences) | `"Vicky helps agents build..."` |
-| `authorLink` | string | Link to author profile page | `"/team/vicky-nga"` |
 | `category` | string | Article category (see list below) | `"Agent Success Strategies"` |
 | `description` | string | SEO description (60-160 chars) | `"Learn proven negotiation scripts..."` |
 | `heroImage` | string | Path to hero banner image | `"/images/my-hero.jpg"` |
@@ -282,11 +276,7 @@ Here's a full working example:
 ---
 title: "San Diego Q1 2026 Market Update"
 slug: "sd-q1-2026-market-update"
-author: "Vicky Nga"
-authorTitle: "Founder & Team Leader"
-authorAvatar: "/images/vicky-chen.jpg"
-authorBio: "Vicky helps ambitious real estate agents build thriving businesses in San Diego."
-authorLink: "/team/vicky-nga"
+author: vicky-nga
 date: "2026-03-15"
 category: "Market News"
 description: "San Diego's Q1 2026 housing market saw median prices rise 6.2% year-over-year with inventory still tight."
