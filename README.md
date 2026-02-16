@@ -7,12 +7,14 @@ This repository manages blog/article content separately from the main site, enab
 ## Folder structure
 
 ```
+profile/          # Team member YAML profiles (single source of truth)
 posts/
   en/             # English posts (primary — full frontmatter)
   vi/             # Vietnamese translations (minimal frontmatter)
   es/             # Spanish translations
   ko/             # Korean translations
 images/           # Shared images (.jpg + .webp + .avif)
+  profile/        # Profile avatars & portrait photos
 scripts/          # Validation & utility scripts
 .github/          # CI workflows, CODEOWNERS, PR template
 ```
@@ -61,17 +63,22 @@ cp posts/vi/_template.mdx posts/vi/existing-article-slug.mdx
 
 ### Sync process
 
-The sync endpoint iterates each locale directory (`posts/en/`, `posts/vi/`, `posts/es/`, `posts/ko/`), parses frontmatter, and builds a merged Firestore document per slug:
+The sync endpoint first syncs `profile/*.yml` files to Firestore's `profiles` collection, then iterates each locale directory (`posts/en/`, `posts/vi/`, `posts/es/`, `posts/ko/`), parses frontmatter, and builds a merged Firestore document per slug:
 
 ```
+profiles/{slug}                       ← from profile/*.yml
+  slug, name, avatar, photoUrl, roleKey, email, phone, certifications
+
 posts/{slug}
-  slug, author, date, heroImage, tags, relatedArticles, ...  ← from English
+  slug, author, authorSlug, date, heroImage, tags, relatedArticles, ...  ← from English
   locales:
     en: { title, description, category, readTime, contentUrl }  ← readTime auto-computed
     vi: { title, description, category, readTime, contentUrl }  ← readTime auto-computed
     es: { ... }
     ko: { ... }
 ```
+
+When a post's `author` field matches a member slug, the sync resolves author name, avatar, and profile link from the member data automatically.
 
 The main site's `resolvePost(doc, locale)` function reads this structure and falls back through: requested locale → English → legacy flat fields.
 
@@ -83,7 +90,7 @@ The main site's `resolvePost(doc, locale)` function reads this structure and fal
 |---|---|---|
 | `title` | string | Non-empty, descriptive headline |
 | `slug` | string | Lowercase alphanumeric + hyphens only |
-| `author` | string | Non-empty author name |
+| `author` | string | Member slug (e.g., `vicky-nga`) or author name |
 | `date` | string | ISO 8601 format (`YYYY-MM-DD`) |
 
 ### Translation posts — required fields (CI enforced)
@@ -97,10 +104,6 @@ The main site's `resolvePost(doc, locale)` function reads this structure and fal
 
 | Field | Purpose |
 |---|---|
-| `authorTitle` | Author's role/position |
-| `authorAvatar` | Path to author photo (e.g., `/images/vicky-chen.jpg`) |
-| `authorBio` | Short author bio (1-2 sentences) |
-| `authorLink` | Link to author profile page |
 | `category` | Article category |
 | `description` | SEO description (60-160 chars) |
 | `heroImage` | Path to hero banner image |
