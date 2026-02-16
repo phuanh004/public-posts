@@ -24,7 +24,7 @@ The site supports **4 locales**: English, Vietnamese, Spanish, and Korean.
 ### How locales work
 
 - **English (`posts/en/`)** is the primary source of truth. Each English post has full frontmatter: `title`, `slug`, `author`, `date`, `heroImage`, `tags`, `relatedArticles`, etc.
-- **Translation files** (`posts/vi/`, `posts/es/`, `posts/ko/`) only need locale-specific fields: `slug`, `title`, `description`, `category`, `readTime`. Shared fields are inherited from the English file during Firestore sync.
+- **Translation files** (`posts/vi/`, `posts/es/`, `posts/ko/`) only need locale-specific fields: `slug`, `title`, `description`, `category`. Shared fields are inherited from the English file during Firestore sync.
 - The **slug must match** across all locales for the same article (e.g., `posts/en/my-article.mdx` and `posts/vi/my-article.mdx` both have `slug: "my-article"`).
 - Images in `images/` are shared across all locales.
 
@@ -48,7 +48,7 @@ Create a new file in the target locale directory with the **same filename** as t
 
 ```bash
 cp posts/vi/_template.mdx posts/vi/existing-article-slug.mdx
-# Edit with translated title, description, category, readTime, and body content
+# Edit with translated title, description, category, and body content
 ```
 
 ## How it works
@@ -67,8 +67,8 @@ The sync endpoint iterates each locale directory (`posts/en/`, `posts/vi/`, `pos
 posts/{slug}
   slug, author, date, heroImage, tags, relatedArticles, ...  ← from English
   locales:
-    en: { title, description, category, readTime, contentUrl }
-    vi: { title, description, category, readTime, contentUrl }
+    en: { title, description, category, readTime, contentUrl }  ← readTime auto-computed
+    vi: { title, description, category, readTime, contentUrl }  ← readTime auto-computed
     es: { ... }
     ko: { ... }
 ```
@@ -102,12 +102,11 @@ The main site's `resolvePost(doc, locale)` function reads this structure and fal
 | `authorBio` | Short author bio (1-2 sentences) |
 | `authorLink` | Link to author profile page |
 | `category` | Article category |
-| `readTime` | Estimated reading time |
 | `description` | SEO description (60-160 chars) |
 | `heroImage` | Path to hero banner image |
 | `heroAlt` | Alt text for hero image |
 | `tags` | Tags for article discovery |
-| `relatedArticles` | Up to 3 related articles with slug, title, category, readTime, image |
+| `relatedArticles` | Up to 3 related articles with slug, title, category, image |
 
 ### Optional fields (recommended for translations)
 
@@ -115,7 +114,8 @@ The main site's `resolvePost(doc, locale)` function reads this structure and fal
 |---|---|
 | `description` | Translated SEO description |
 | `category` | Translated category name |
-| `readTime` | Translated reading time (e.g., `"5 phút đọc"`) |
+
+> **Note:** `readTime` is automatically computed from content during sync using locale-specific reading speeds (en: 265 WPM, es: 218 WPM, vi: 228 WPM, ko: 500 chars/min). No need to specify it in frontmatter.
 
 ## MDX content guide
 

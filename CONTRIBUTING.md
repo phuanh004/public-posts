@@ -52,7 +52,7 @@ posts/
   ko/                  ← Korean
 ```
 
-The English file is the primary source. Translations only need `slug`, `title`, `description`, `category`, and `readTime` — shared fields like `author`, `date`, `heroImage`, `tags`, and `relatedArticles` are inherited from the English file during sync.
+The English file is the primary source. Translations only need `slug`, `title`, `description`, and `category` — shared fields like `author`, `date`, `heroImage`, `tags`, and `relatedArticles` are inherited from the English file during sync. Reading time is automatically computed from content.
 
 ### 1. Create the English file
 
@@ -77,7 +77,6 @@ authorBio: "Vicky helps ambitious real estate agents build thriving businesses."
 authorLink: "/team/vicky-nga"
 date: "2026-01-21"
 category: "Agent Success Strategies"
-readTime: "5 min read"
 description: "Learn proven negotiation scripts for winning in competitive multiple-offer scenarios without alienating sellers."
 heroImage: "/images/leadership-retreat-recap.jpg"
 heroAlt: "Team workshop on negotiation strategies"
@@ -90,7 +89,6 @@ relatedArticles:
   - slug: "how-to-get-first-10-listings"
     title: "How to Get Your First 10 Listings Without Cold Calling"
     category: "Training"
-    readTime: "7 min read"
     image: "/images/how-to-get-first-10-listings.jpg"
 ---
 ```
@@ -105,7 +103,6 @@ slug: "5-negotiation-scripts"
 title: "5 Kịch Bản Đàm Phán Giúp Thắng Trong Tình Huống Nhiều Đề Xuất"
 description: "Kịch bản và hướng dẫn đàm phán giúp thắng trong tình huống nhiều đề xuất."
 category: "Chiến Lược Thành Công Cho Đại Lý"
-readTime: "5 phút đọc"
 ---
 ```
 
@@ -136,7 +133,6 @@ readTime: "5 phút đọc"
 | `authorBio` | string | Short author bio (1-2 sentences) | `"Vicky helps agents build..."` |
 | `authorLink` | string | Link to author profile page | `"/team/vicky-nga"` |
 | `category` | string | Article category (see list below) | `"Agent Success Strategies"` |
-| `readTime` | string | Estimated reading time | `"5 min read"` |
 | `description` | string | SEO description (60-160 chars) | `"Learn proven negotiation scripts..."` |
 | `heroImage` | string | Path to hero banner image | `"/images/my-hero.jpg"` |
 | `heroAlt` | string | Alt text for hero image | `"Workshop in progress"` |
@@ -293,7 +289,6 @@ authorBio: "Vicky helps ambitious real estate agents build thriving businesses i
 authorLink: "/team/vicky-nga"
 date: "2026-03-15"
 category: "Market News"
-readTime: "4 min read"
 description: "San Diego's Q1 2026 housing market saw median prices rise 6.2% year-over-year with inventory still tight."
 heroImage: "/images/sd-q1-2026-market-update.jpg"
 heroAlt: "San Diego skyline with coastal homes"
@@ -306,7 +301,6 @@ relatedArticles:
   - slug: "5-negotiation-scripts"
     title: "5 Negotiation Scripts That Win Multiple Offer Situations"
     category: "Agent Success Strategies"
-    readTime: "5 min read"
     image: "/images/leadership-retreat-recap.jpg"
 ---
 
